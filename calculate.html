@@ -1,56 +1,99 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <meta charset="UTF-8">
+
     <title>计算</title>
+
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>
+
 </head>
+
 <body>
+
     <div id="calculate">
+
         <input v-model="number1"/>
+
         <select v-model="selected">
-            <option value="0">+</option>
-            <option value="1">-</option>
-            <option value="2">*</option>
-            <option value="3">/</option>
+
+            <option v-for="op of operations" : value="op">{{op}}</option>
+
         </select>
+
         <input v-model="number2"/>
+
         <button @click="cal()">=</button>
-        <button @click="cal()"><span>{{ resulted }}</span></button>
+
+        <span  @click="cal()">{{ result }}</span>
+
     </div>
-</body>
-</html>
+
 <script>
+
     var vm=new Vue({
+
         el:'#calculate',
+
         data:{
-            number1:'',
-            number2:'',
-            selected:'',
-            resulted:'0',
+
+            number1:"",
+
+            number2:"",
+
+            selected:"+",
+
+            operations:['+','-','*','/'],
+
+            result:"0",
+
         },
+
         methods:{
+
             cal:function () {
-                if (this.selected=='0'){
-                    /*字符串变数字剪0*/
-                    this.resulted=(this.number1-0)+(this.number2-0);
+                if(this.number1.trim()===""||this.number2.trim()==""){
+                    this.result = "输入不能为空！";
+                    return;
                 }
-                if (this.selected=='1'){
-                    this.resulted=(this.number1-0)-(this.number2-0);
-                }
-                if (this.selected=='2'){
-                    this.resulted=(this.number1-0)*(this.number2-0);
-                }
-                if (this.selected=='3'){
-                    this.resulted=(this.number1-0)/(this.number2-0);
-                }
+                switch(this.selected){
+                    case '+':
+                    this.result=Number(this.number1)+Number(this.number2);
+                        break;
+                    case '-':
+                    this.result=Number(this.number1)-Number(this.number2);
+                        break;
+                    case '*':
+                        this.result=Number(this.number1)*Number(this.number2);
+                        break;
+                    case '/':
+                        if(Number(this.number2)===0){
+                            this.number2 = "输入有误！";
+                            return;
+                        }
+                        this.result=Number(this.number1)/Number(this.number2);
+                        break;
+                    }
+
             }
+
         }
+
     });                 
+
     </script>
 
+
+
 </body>
+
 </html>
